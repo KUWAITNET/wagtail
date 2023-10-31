@@ -12,22 +12,22 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name="revision",
-            name="content_type",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                to="contenttypes.contenttype",
-                related_name="+",
-            ),
-        ),
-        migrations.AlterField(
-            model_name="revision",
-            name="base_content_type",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                to="contenttypes.contenttype",
-                related_name="+",
-            ),
-        ),
+        # migrations.AlterField(
+        #     model_name="revision",
+        #     name="content_type",
+        #     field=models.ForeignKey(
+        #         on_delete=django.db.models.deletion.CASCADE,
+        #         to="contenttypes.contenttype",
+        #         related_name="+",
+        #     ),
+        # ),
+        # migrations.AlterField(
+        #     model_name="revision",
+        #     name="base_content_type",
+        #     field=models.ForeignKey(
+        #         on_delete=django.db.models.deletion.CASCADE,
+        #         to="contenttypes.contenttype",
+        #         related_name="+",
+        #     ),
+        # ),
     ]

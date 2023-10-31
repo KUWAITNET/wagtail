@@ -15,15 +15,19 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunSQL(
             """
+            SET IDENTITY_INSERT wagtailsearchpromotions_query ON;
             INSERT INTO wagtailsearchpromotions_query (id, query_string)
-            SELECT id, query_string FROM wagtailsearch_query
+            SELECT id, query_string FROM wagtailsearch_query;
+            SET IDENTITY_INSERT wagtailsearchpromotions_query OFF;
             """,
             "",
         ),
         migrations.RunSQL(
             """
+            SET IDENTITY_INSERT wagtailsearchpromotions_querydailyhits ON;
             INSERT INTO wagtailsearchpromotions_querydailyhits (id, date, hits, query_id)
-            SELECT id, date, hits, query_id FROM wagtailsearch_querydailyhits
+            SELECT id, date, hits, query_id FROM wagtailsearch_querydailyhits;
+            SET IDENTITY_INSERT wagtailsearchpromotions_querydailyhits OFF 
             """,
             "",
         ),

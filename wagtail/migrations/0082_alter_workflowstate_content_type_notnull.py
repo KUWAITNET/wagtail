@@ -12,22 +12,22 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name="workflowstate",
-            name="base_content_type",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="+",
-                to="contenttypes.contenttype",
-            ),
-        ),
-        migrations.AlterField(
-            model_name="workflowstate",
-            name="content_type",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="+",
-                to="contenttypes.contenttype",
-            ),
-        ),
+        # migrations.AlterField(
+        #     model_name="workflowstate",
+        #     name="base_content_type",
+        #     field=models.ForeignKey(
+        #         on_delete=django.db.models.deletion.CASCADE,
+        #         related_name="+",
+        #         to="contenttypes.contenttype",
+        #     ),
+        # ),
+        # migrations.AlterField(
+        #     model_name="workflowstate",
+        #     name="content_type",
+        #     field=models.ForeignKey(
+        #         on_delete=django.db.models.deletion.CASCADE,
+        #         related_name="+",
+        #         to="contenttypes.contenttype",
+        #     ),
+        # ),
     ]

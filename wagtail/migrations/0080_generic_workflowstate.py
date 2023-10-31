@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
             model_name="workflowstate",
             name="content_type",
             field=models.ForeignKey(
-                null=True,
+                # null=True,
                 on_delete=models.CASCADE,
                 related_name="+",
                 to="contenttypes.contenttype",
@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
             model_name="workflowstate",
             name="base_content_type",
             field=models.ForeignKey(
-                null=True,
+                # null=True,
                 on_delete=models.CASCADE,
                 related_name="+",
                 to="contenttypes.contenttype",
