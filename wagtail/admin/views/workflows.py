@@ -2,7 +2,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.db import transaction
-from django.db.models import Count, OuterRef
+from django.db.models import Count, OuterRef, Subquery
 from django.db.models.functions import Lower
 from django.http import Http404, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
@@ -63,10 +63,19 @@ class Index(IndexView):
         queryset = super().get_queryset()
         if not self.show_disabled():
             queryset = queryset.filter(active=True)
-        content_types = WorkflowContentType.objects.filter(
-            workflow=OuterRef("pk")
-        ).values_list("pk", flat=True)
-        queryset = queryset.annotate(content_types=Count(content_types))
+        # content_types = WorkflowContentType.objects.filter(
+        #     workflow=OuterRef("pk")
+        # ).values_list("pk", flat=True)
+        # queryset = queryset.annotate(content_types=Count(content_types))
+
+        subquery = (
+            WorkflowContentType.objects.filter(workflow=OuterRef("pk"))
+            .values_list("pk", flat=True)
+            .annotate(count=Count("workflow"))
+            .values("count")
+        )
+        queryset = queryset.annotate(content_types=Subquery(subquery))
+
         return queryset
 
     def get_context_data(self, **kwargs):
