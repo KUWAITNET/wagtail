@@ -4,7 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.db import transaction
-from django.db.models import Count, OuterRef, Prefetch
+from django.db.models import Count, OuterRef, Prefetch, Subquery
 from django.db.models.functions import Lower
 from django.http import Http404, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
@@ -145,10 +145,17 @@ class Index(IndexView):
 
     def get_base_queryset(self):
         queryset = super().get_base_queryset()
-        content_types = WorkflowContentType.objects.filter(
-            workflow=OuterRef("pk")
-        ).values_list("pk", flat=True)
-        queryset = queryset.annotate(content_types=Count(content_types))
+        # content_types = WorkflowContentType.objects.filter(
+        #     workflow=OuterRef("pk")
+        # ).values_list("pk", flat=True)
+        # queryset = queryset.annotate(content_types=Count(content_types))
+        subquery = (
+            WorkflowContentType.objects.filter(workflow=OuterRef("pk"))
+            .values_list("pk", flat=True)
+            .annotate(count=Count("workflow"))
+            .values("count")
+        )
+        queryset = queryset.annotate(content_types=Subquery(subquery))
         return queryset.prefetch_related(
             "workflow_pages",
             "workflow_pages__page",
