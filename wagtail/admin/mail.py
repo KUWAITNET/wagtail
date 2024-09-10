@@ -272,7 +272,7 @@ class EmailNotificationMixin:
                             email_subject,
                             recipient.email,
                         )
-        except (TimeoutError, ConnectionError):
+        except (TimeoutError, ConnectionError, OSError):
             logger.exception("Mail connection error, notification sending skipped")
 
         return sent_count == len(recipients)
