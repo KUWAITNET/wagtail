@@ -4323,13 +4323,14 @@ class WorkflowState(models.Model):
         verbose_name = _("Workflow state")
         verbose_name_plural = _("Workflow states")
         # prevent multiple STATUS_IN_PROGRESS/STATUS_NEEDS_CHANGES workflows for the same object. This is only supported by specific databases (e.g. Postgres, SQL Server), so is checked additionally on save.
-        constraints = [
-            models.UniqueConstraint(
-                fields=["base_content_type", "object_id"],
-                condition=Q(status__in=("in_progress", "needs_changes")),
-                name="unique_in_progress_workflow",
-            )
-        ]
+        if settings.DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql':
+            constraints = [
+                models.UniqueConstraint(
+                    fields=["base_content_type", "object_id"],
+                    condition=Q(status__in=("in_progress", "needs_changes")),
+                    name="unique_in_progress_workflow",
+                )
+            ]
         indexes = [
             models.Index(
                 fields=["content_type", "object_id"],
